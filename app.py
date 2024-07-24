@@ -20,7 +20,7 @@ def translate_audio(client, audio_path):
 # sending the text to OpenAI
 def fetch_response(client, input_data):
     messages = [{"role": "user", "content" : input_data}]
-    resp = client.chat.completions.create(model = "gpt-3.5-turbo-1106", messages = messages)
+    resp = client.chat.completions.create(model = "gpt-3.5-turbo-16k", messages = messages)
     return resp.choices[0].message.content
 
 # Conversion of text to audio
