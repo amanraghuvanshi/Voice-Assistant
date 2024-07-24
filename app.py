@@ -5,8 +5,8 @@ import streamlit as st
 from audio_recorder_streamlit import audio_recorder  # For recording the audio
 
 # initializing the openai client
-def openai_setup(api_key):
-    return openai.OpenAI(api_key = api_key)
+def openai_setup(secret_key):
+    return openai.OpenAI(api_key = secret_key)
 
 # translation of audio to text
 def translate_audio(client, audio_path):
@@ -26,8 +26,8 @@ def text_to_audio(client, text, audio_path):
 
 # front page of the application
 def main():
-    st.sidebar.title("API KEY Configuration")
-    api_key = st.sidebar.text_input("Please share your API key with us: ", type = "password")
+    st.sidebar.title("Secret Key Configuration")
+    api_key = st.sidebar.text_input("Please share your secret key with us: ", type = "password")
     
     
     st.title("Aura Voice Channel 💎")
