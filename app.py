@@ -40,6 +40,23 @@ def main():
     if OPENAI_TOKEN:
         client = openai_setup(OPENAI_TOKEN)
         record_audio = audio_recorder()
+        
+        # If recording done
+        if record_audio:
+            audio_file = "audio.mp3"
+            with open(audio_file, "wb") as f:
+                f.write(record_audio)
+                
+            transcribe_text = translate_audio(client=client, audio_path=audio_file)
+            st.write("Translated Text: ", transcribe_text)
+            
+            generated_resp = fetch_response(client=client, input_data=transcribe_text)
+            
+            resp_audio = "response.mp3"
+            text_to_audio(client=client, text=generated_resp, audio_path=resp_audio)
+            st.audio(resp_audio)
+            
+            st.write("Resolution: ", generated_resp)
     
 # The design for the main page
 
