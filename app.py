@@ -1,12 +1,15 @@
 # Libraries
+import os
 import openai
 import base64
 import streamlit as st
 from audio_recorder_streamlit import audio_recorder  # For recording the audio
 
+response_token = os.getenv('API_KEY')
+
 # initializing the openai client
-def openai_setup(secret_key):
-    return openai.OpenAI(api_key = secret_key)
+def openai_setup(OPENAI_TOKEN):
+    return openai.OpenAI(api_key = OPENAI_TOKEN)
 
 # translation of audio to text
 def translate_audio(client, audio_path):
@@ -23,16 +26,20 @@ def fetch_response(client, input_data):
 # Conversion of text to audio
 def text_to_audio(client, text, audio_path):
     resp = client.audio.speech.create(model = "tts-1", voice = "onyx", input = text)
-
+    resp.stream_to_file(audio_path)
+    
 # front page of the application
 def main():
     st.sidebar.title("Secret Key Configuration")
-    api_key = st.sidebar.text_input("Please share your secret key with us: ", type = "password")
+    OPENAI_TOKEN = st.sidebar.text_input("Please share your secret key with us: ", type = "password")
     
     
     st.title("Aura Voice Channel 💎")
     st.write("Hi, This is Aura ✨. Hope you are doing well. Let me know, how may I help you!")
-    record_audio = audio_recorder()
+    
+    if OPENAI_TOKEN:
+        client = openai_setup(OPENAI_TOKEN)
+        record_audio = audio_recorder()
     
 # The design for the main page
 
